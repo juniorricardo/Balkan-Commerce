@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Catalog.Api.Controllers
@@ -19,6 +15,9 @@ namespace Catalog.Api.Controllers
         }
 
         [HttpGet]
-        public string Get() => "Running...";
+        public string Get()
+        {
+            return "Running...";
+        } 
     }
 }
