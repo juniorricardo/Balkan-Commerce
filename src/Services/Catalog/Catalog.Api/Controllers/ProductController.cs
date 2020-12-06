@@ -7,25 +7,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Catalog.Service.EventHandlers.Commands;
+using MediatR;
 
 namespace Catalog.Api.Controllers
 {
     [ApiController]
-    [Route("product")]
+    [Route("api/products")]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<DefaultController> _logger;
         private readonly IProductQueryService _productQueryService;
+        private readonly IMediator _mediator;
 
         public ProductController(ILogger<DefaultController> logger,
-            IProductQueryService productQueryService)
+            IProductQueryService productQueryService,
+            IMediator mediator)
         {
             _logger = logger;
             _productQueryService = productQueryService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<DataCollection<ProductDto>> GetAll(int page =1, int take =10 , string ids = null)
+        public async Task<DataCollection<ProductDto>> GetAll(int page = 1, int take = 10, string ids = null)
         {
             IEnumerable<int> products = null;
 
@@ -39,6 +44,14 @@ namespace Catalog.Api.Controllers
         public async Task<ProductDto> GetAsync(int id)
         {
             return await _productQueryService.GetAsync(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ProductCreateCommand command)
+        {
+            await  _mediator.Publish(command);
+
+            return Ok();
         }
     }
 }

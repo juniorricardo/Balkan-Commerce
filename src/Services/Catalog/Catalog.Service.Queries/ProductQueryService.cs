@@ -34,8 +34,8 @@ namespace Catalog.Service.Queries
         {
             var collection = await _dbContext.Products.Where(x => products == null || products.Contains(x.ProductId))
                 .OrderByDescending(x => x.ProductId)
-                .GetPagedAsync(page,
-                    take);
+                .GetPagedAsync(page, take);
+
             return collection.MapTo<DataCollection<ProductDto>>();
         }
 
